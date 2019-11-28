@@ -1,8 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
-	<body onload = 'window.location.replace("./login/index.html");'>
-</body>
+	<head>
+
+		<style>
+			body {
+				background-color: red !important;
+			}
+			@font-face {
+			   font-family: lobster;
+			   src: url("./global/font/Lobster-1.4.woff");
+			}
+			
+			.titulo-splash {
+				font-family: lobster;
+				color: white;
+			}		
+		</style>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content = "Guilherme">
+		<title>MyBreakFaster - SplashScreen</title>
+		<link href="./global/css/bootstrap.min.css" rel="stylesheet">
+		<link href="./login/css/signin.css" rel="stylesheet">
+		<script src = "./global/js/jquery-3.4.1.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$("#splash-screen").fadeIn(1500, function() {
+					location.replace("./login/index.html");	
+				});
+			});
+		</script>
+
+
+	</head>
+	<body class = "text-center" id = "splash-screen" style = "display:none">
+		<form class="form-signin">
+			<h1 class = "titulo-splash">MyBreakFaster</h1>
+		</form>
+	</body>
 </html>

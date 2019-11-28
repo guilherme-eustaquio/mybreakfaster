@@ -14,36 +14,6 @@
 		<script src = "../global/js/Usuario.js"></script>
 		<script src = "./js/Cadastro.js"></script>
 
-		<!-- The core Firebase JS SDK is always required and must be listed first -->
-		<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase.js"></script>
-
-		<!-- TODO: Add SDKs for Firebase products that you want to use
-		     https://firebase.google.com/docs/web/setup#available-libraries -->
-
-		<script>
-		  // Your web app's Firebase configuration
-		  var firebaseConfig = {
-			apiKey: "AIzaSyDijtTLLjGLHQHa4mr92hukTkkm5MGrFjo",
-			authDomain: "mybreakfaster.firebaseapp.com",
-			databaseURL: "https://mybreakfaster.firebaseio.com",
-			projectId: "mybreakfaster",
-			storageBucket: "mybreakfaster.appspot.com",
-			messagingSenderId: "39044948195",
-			appId: "1:39044948195:web:b7ae1986e3830aba3265d6"
-		  };
-		  // Initialize Firebase
-		  firebase.initializeApp(firebaseConfig);
-
-		  function criarUsuario() {
-		  	firebase.database().ref("User").set({
-		  		email: document.getElementById("email").value,
-		  		nome: document.getElementById("nome").value,
-		  		senha: document.getElementById("senha").value
-		  	});
-		  }
-
-		</script>
-
 	</head>
 
 	<body class="d-flex flex-column h-100">

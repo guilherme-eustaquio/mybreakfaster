@@ -29,6 +29,15 @@ body {
   }
 }
 
+.ativa {
+	color: #bf2e26 !important;
+
+}
+
+.nav-link:hover {
+	color: #bf2e26 !important;
+}
+
 .nav-scroller {
 
   position: relative;

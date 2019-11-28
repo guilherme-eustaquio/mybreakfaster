@@ -83,9 +83,9 @@ function menuAplicativo(pagina) {
 
 	document.getElementById(paginas[ultima_pagina_acessada]).style.display = "none";
 	document.getElementById(links[ultima_pagina_acessada]).className = "nav-link";
-
+	
 	document.getElementById(paginas[pagina]).style.display = "block";
-	document.getElementById(links[pagina]).className = "nav-link active";
+	document.getElementById(links[pagina]).className = "nav-link ativa";
 		
 	ultima_pagina_acessada = pagina;	
 }

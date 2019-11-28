@@ -13,6 +13,19 @@ body {
   background-color: white;
 }
 
+
+@font-face {
+	font-family: lobster;
+	src: url("../../global/font/Lobster-1.4.woff");	
+}
+
+
+.titulo {
+	font-family: lobster !important; 
+	color: red;
+	margin-bottom: 25px;
+}
+
 .form-signin {
   width: 100%;
   max-width: 330px;
