@@ -60,15 +60,17 @@ function carregarCards() {
 		{
 			id: 1,
 			nome: "Mac Donalds",
-			conteudo: "Venha ser feliz no MC Lanche Feliz!"
+			conteudo: "Venha ser feliz no MC Lanche Feliz!",
+			avaliacao: 4
 		},
 		{
 			id: 2,
 			nome: "Bobs",
-			conteudo: "O Bobs é dahora!"
+			conteudo: "O Bobs é dahora!",
+			avaliacao: 3
 		}
 	];
-	
+		
 	let restaurantes = new Card();
 		
 	document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(json);
@@ -83,9 +85,9 @@ function menuAplicativo(pagina) {
 
 	document.getElementById(paginas[ultima_pagina_acessada]).style.display = "none";
 	document.getElementById(links[ultima_pagina_acessada]).className = "nav-link";
-	
+		
 	document.getElementById(paginas[pagina]).style.display = "block";
-	document.getElementById(links[pagina]).className = "nav-link ativa";
+	document.getElementById(links[pagina]).className = "nav-link active";
 		
 	ultima_pagina_acessada = pagina;	
 }

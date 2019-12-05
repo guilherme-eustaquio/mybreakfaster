@@ -8,7 +8,15 @@ class Card {
 		for(contador = 0; contador < json.length; contador++) {
 			
 			str += '<div class="my-3 p-3 bg-white rounded box-shadow">';
-			str += '<h6 class="border-bottom border-gray pb-2 mb-0">' + json[contador].nome + '</h6>';
+			str += '<h6 class="border-bottom border-gray pb-2 mb-0">' + json[contador].nome;
+			
+
+			str += '<span style = "float:right">' + json[contador].avaliacao + ' <img src = "./image/star-24px.svg"></span>'
+			
+			
+
+			str += '</h6>';
+		
 			str += '<div class="media text-muted pt-3">';
 			str += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">';
 			str += json[contador].conteudo;
@@ -24,6 +32,7 @@ class Card {
 	gerarCardProdutos(json) {
 		
 		let str = "";
+		let contador = 0;
 
 		for(contador = 0; contador < json.length; contador++) {		
 
@@ -34,9 +43,9 @@ class Card {
 			str += '<p class="card-text">' + json[contador].descricao + '</p>';
 			str += '<div class="d-flex justify-content-between align-items-center">';
 			str += '<div class="btn-group">';
-			str += '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>';
-			str += '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></div>';
-			str += '<small class="text-muted">' + json[contador].valor + '</small></div></div></div></div>';
+			str += '<button type="button" class="btn btn-sm btn-outline-secondary">Comprar</button>';
+			str += '</div>' + '<small class="text-muted" style = "float:right">R$' + json[contador].valor + '</small>'  +'</div></div></div>';
+
 		}
 
 		return str;			

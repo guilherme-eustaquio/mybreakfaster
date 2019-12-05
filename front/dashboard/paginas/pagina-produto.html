@@ -1,4 +1,20 @@
 <script>
+	
+	$("#produtos-cards").ready(	function carregarCardsProdutos() {
+
+		let produtos = new Card();
+		let json = [
+			{
+				imagem: "../global/local_files/macdonalds/hamburguer.jpg",
+				descricao: "O melhor big mac do mundo!",
+				valor:"17.50",
+				curtidas: 195
+			}
+		]		
+		
+		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(json);
+	});
+
 </script>
 
 <div class="album py-5 bg-light">
