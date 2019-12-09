@@ -41,7 +41,7 @@ class Card {
 			str += '<p class="card-text">' + json[contador].descricao + '</p>';
 			str += '<div class="d-flex justify-content-between align-items-center">';
 			str += '<div class="btn-group">';
-			str += '<a href = "#produto=' + json[contador].id + '" class="btn btn-sm btn-outline-secondary">Comprar</a>';
+			str += '<a href = "#produto=' + json[contador].id + '" class="btn btn-sm btn-outline-secondary">Pedir</a>';
 			str += '</div>' + '<small class="text-muted" style = "float:right">R$' + json[contador].valor + '</small>'  +'</div></div></div></div>';
 		}
 

@@ -5,27 +5,26 @@
 		carregarCardsProdutos();
 	});
 
+	function carregarCardsProdutos() {
 
-function carregarCardsProdutos() {
+		let produtos = new Card();
+		let json = [
+			{
+				id: 1,
+				imagem: "../global/local_files/macdonalds/hamburguer.jpg",
+				descricao: "O melhor big mac do mundo!",
+				valor:"17.50",
+			},
+			{
+				id: 2,
+				imagem: "../global/local_files/macdonalds/pizza.jpg",
+				descricao: "A melhor pizza do mundo!",
+				valor:"42.50",
+			}
+		]		
 
-	let produtos = new Card();
-	let json = [
-		{
-			id: 1,
-			imagem: "../global/local_files/macdonalds/hamburguer.jpg",
-			descricao: "O melhor big mac do mundo!",
-			valor:"17.50",
-		},
-		{
-			id: 2,
-			imagem: "../global/local_files/macdonalds/pizza.jpg",
-			descricao: "A melhor pizza do mundo!",
-			valor:"42.50",
-		}
-	]		
-
-	document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(json);
-}
+		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(json);
+	}
 
 </script>
 
