@@ -25,7 +25,7 @@ window.addEventListener('hashchange', function() {
 				document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
 				return;
 			}
-
+			carregarCards();
 			menuAplicativo(0);
 			break;
 		case "#lista-pedidos":
@@ -61,24 +61,20 @@ function abrirModal(tipo) {
 
 function carregarCards() {
 
-	const json = [
-		{
-			id: 1,
-			nome: "Mac Donalds",
-			conteudo: "Venha ser feliz no MC Lanche Feliz!",
-			avaliacao: 4
-		},
-		{
-			id: 2,
-			nome: "Bobs",
-			conteudo: "O Bobs é dahora!",
-			avaliacao: 3
-		}
-	];
+
+	$.ajax({
+		url : "https://domod.com.br/mybreakfaster/obterEstabelecimentos.php",
+		type : 'GET'
+	 })
+	 .done(function(msg){
+
+		obj = JSON.parse(msg);
+
+		let restaurantes = new Card();
 		
-	let restaurantes = new Card();
-		
-	document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(json);
+		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(obj);
+
+	 });
 }
 
 var ultima_pagina_acessada = 0;
@@ -113,9 +109,25 @@ function esconderTodos() {
 }
 
 function carregarProduto(id) {
-	abrirModal("modal-voce-esta");
+
 	$("#lista-restaurantes").hide();
 	$("#lista-produtos").load("./paginas/pagina-produto.html");
 	$("#lista-produtos").show();
 	esconderTodos();
+
+
+	$.ajax({
+		url : "https://domod.com.br/mybreakfaster/obterProdutos.php?id=" + id,
+		type : 'GET'
+	 })
+	 .done(function(msg){
+
+		let produtos = new Card();
+		let json = JSON.parse(msg);	
+
+		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(json);
+
+	 });
+	
+
 }

@@ -2,9 +2,10 @@
 	class Banco {
 
 		private $servidor = "localhost";
-		private $usuario = "root";
-		private $senha = "";
-		private $nomeBD = "mybreakfaster";
+		private $usuario = "domod796_mybreak";
+		private $senha = "guilherme123";
+		private $nomeBD = "domod796_mybreakfaster";
+
 
 		public function obterConexao() {
 			$conexao = new mysqli($this->servidor, $this->usuario, $this->senha, $this->nomeBD);

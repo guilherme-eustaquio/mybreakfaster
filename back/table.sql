@@ -6,7 +6,7 @@ CREATE TABLE estabelecimento (
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE usuario(
+CREATE TABLE usuario (
 	id INTEGER AUTO_INCREMENT,
 	nome VARCHAR(50),
 	email VARCHAR(100),
@@ -14,7 +14,7 @@ CREATE TABLE usuario(
 	PRIMARY KEY(id, email)
 );
 
-CREATE TABLE produto(
+CREATE TABLE produto (
 	id INTEGER AUTO_INCREMENT,
 	id_estabelecimento INTEGER,
 	imagem VARCHAR(50),
@@ -24,14 +24,25 @@ CREATE TABLE produto(
 	FOREIGN KEY(id_estabelecimento) REFERENCES estabelecimento
 );
 
+CREATE TABLE pedido (
+	id INTEGER AUTO_INCREMENT,
+	id_produto INTEGER,
+	id_estabelecimento INTEGER,
+	id_usuario INTEGER,
+	forma_pagamento VARCHAR(50),
+	PRIMARY KEY(id),
+	FOREIGN KEY(id_produto) REFERENCES produto(id),
+	FOREIGN KEY(id_estabelecimento) REFERENCES estabelecimento(id),
+	FOREIGN KEY(id_usuario) REFERENCES usuario(id)
+);
+
 INSERT INTO usuario (nome, email, senha) VALUES ('Guilherme', 'guilherme.eustaquio.moreira@gmail.com', '123456');
 INSERT INTO usuario (nome, email, senha) VALUES ('Rodrigo',  'admrodrigo2@yahoo.com.br', '123456');
 INSERT INTO usuario (nome, email, senha) VALUES ('Mateus', 'mboprates@gmail.com', '123456');
 
 INSERT INTO estabelecimento (nome, conteudo, avaliacao) VALUES ('Mac Donalds', 'Venha ser feliz no MC Lanche Feliz!', 4);
-INSERT INTO estabelecimento (nome, conteudo, avaliacao) VALUES ('Bobs', 'O Bobs é dahora!', 3);
+INSERT INTO estabelecimento (nome, conteudo, avaliacao) VALUES ('Bobs', 'O Bobs eh dahora!', 3);
 
 INSERT INTO produto (id_estabelecimento, imagem, descricao, valor) VALUES (1, '../global/local_files/macdonalds/pizza.jpg', 'A melhor pizza do mundo!', 42.50);
 INSERT INTO produto (id_estabelecimento, imagem, descricao, valor) VALUES (1, '../global/local_files/macdonalds/hamburguer.jpg', 'O melhor big mac do mundo!', 17.50);
-INSERT INTO produto (id_estabelecimento, imagem, descricao, valor) VALUES (2, '../global/local_files/macdonalds/mclanche.jpg', 'Esse aqui é brabo!', 12.50);
-
+INSERT INTO produto (id_estabelecimento, imagem, descricao, valor) VALUES (2, '../global/local_files/macdonalds/mclanche.jpg', 'Esse aqui eh brabo!', 12.50);
