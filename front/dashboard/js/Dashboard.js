@@ -61,7 +61,7 @@ function abrirModal(tipo) {
 
 function carregarCards() {
 
-
+	document.getElementById("carregando").style.display = "block";
 	$.ajax({
 		url : "https://domod.com.br/mybreakfaster/obterEstabelecimentos.php",
 		type : 'GET'
@@ -71,9 +71,11 @@ function carregarCards() {
 		obj = JSON.parse(msg);
 
 		let restaurantes = new Card();
-		
-		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(obj);
 
+		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(obj);
+		document.getElementById("carregando").style.display = "none";
+	 }).fail(function(jqXHR, textStatus, msg){
+		document.getElementById("carregando").style.display = "none";
 	 });
 }
 

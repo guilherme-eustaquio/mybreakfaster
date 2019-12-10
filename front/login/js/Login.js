@@ -13,13 +13,16 @@ function gerarMensagemErro(mensagem) {
 
 
 function validarDados(email, senha, sucesso, erro) {
+
+	$("#carregando").show();
+
 	$.ajax({
 		url : "https://domod.com.br/mybreakfaster/login.php",
 		type : 'POST',
 		data : 'email=' + email + '&senha=' + senha
 	 })
 	 .done(function(msg){
-
+		$("#carregando").hide();
 		obj = JSON.parse(msg);
 
 		switch(obj.result) {
@@ -32,6 +35,7 @@ function validarDados(email, senha, sucesso, erro) {
 
 	 })
 	 .fail(function(jqXHR, textStatus, msg){
+		$("#carregando").hide();
 		gerarMensagemErro("Erro no servidor");
 	 });
 }
