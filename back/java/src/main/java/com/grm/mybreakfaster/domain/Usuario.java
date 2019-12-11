@@ -1,26 +1,28 @@
-package com.grm.mybreakfaster.entity;
+package com.grm.mybreakfaster.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Estabelecimento {
+@Table(name = "usuario")
+public class Usuario {
 	
 	@Id
-	@GeneratedValue
 	@Column(name = "id")
+	@GeneratedValue
 	private Long id;
 	
 	@Column(name = "nome")
 	private String nome;
 	
-	@Column(name = "conteudo")
-	private String conteudo;
+	@Column(name = "email")
+	private String email;
 	
-	@Column(name = "avaliacao")
-	private int avaliacao;
+	@Column(name = "senha")
+	private String senha;
 
 	public Long getId() {
 		return id;
@@ -38,19 +40,20 @@ public class Estabelecimento {
 		this.nome = nome;
 	}
 
-	public String getConteudo() {
-		return conteudo;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public int getAvaliacao() {
-		return avaliacao;
+	public String getSenha() {
+		return senha;
 	}
 
-	public void setAvaliacao(int avaliacao) {
-		this.avaliacao = avaliacao;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }
+
