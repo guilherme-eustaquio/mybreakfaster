@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,9 +15,8 @@ public class Produto {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_estabelecimento")
-	private Estabelecimento estabelecimento;
+	@Column(name = "id_estabelecimento")
+	private Long id_estabelecimento;
 	
 	@Column(name = "imagem")
 	private String imagem;
@@ -36,14 +33,6 @@ public class Produto {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Estabelecimento getEstabelecimento() {
-		return estabelecimento;
-	}
-
-	public void setEstabelecimento(Estabelecimento estabelecimento) {
-		this.estabelecimento = estabelecimento;
 	}
 
 	public String getImagem() {
@@ -68,6 +57,14 @@ public class Produto {
 
 	public void setValor(double valor) {
 		this.valor = valor;
+	}
+
+	public Long getIdEstabelecimento() {
+		return id_estabelecimento;
+	}
+
+	public void setIdEstabelecimento(Long id_estabelecimento) {
+		this.id_estabelecimento = id_estabelecimento;
 	}	
 	
 	

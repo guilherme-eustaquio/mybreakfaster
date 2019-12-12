@@ -21,5 +21,5 @@ public class ProdutoController {
 	@GetMapping("/{id}")
 	public List<Produto> obterProdutos(@PathVariable long id) {	
 		return this.produtos.findByEstabelecimento(id);
-	}	
+	}
 }

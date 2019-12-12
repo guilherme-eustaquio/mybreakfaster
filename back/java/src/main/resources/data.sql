@@ -27,12 +27,10 @@ CREATE TABLE IF NOT EXISTS produto (
 CREATE TABLE IF NOT EXISTS pedido (
 	id INTEGER AUTO_INCREMENT,
 	id_produto INTEGER,
-	id_estabelecimento INTEGER,
 	id_usuario INTEGER,
 	forma_pagamento VARCHAR(50),
 	PRIMARY KEY(id),
 	FOREIGN KEY(id_produto) REFERENCES produto(id),
-	FOREIGN KEY(id_estabelecimento) REFERENCES estabelecimento(id),
 	FOREIGN KEY(id_usuario) REFERENCES usuario(id)
 );
 
