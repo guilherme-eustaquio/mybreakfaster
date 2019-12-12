@@ -16,7 +16,7 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@PostMapping
-	public String login(@RequestParam(name = "email") String email, @RequestParam(name = "email") String senha) {
+	public String login(@RequestParam(name = "email") String email, @RequestParam(name = "senha") String senha) {
 		
 		if(usuarioRepository.login(email, senha) == 0) {
 			return String.format("{\"result\":\"%s\"}", "Usuário ou senha incorretos!");

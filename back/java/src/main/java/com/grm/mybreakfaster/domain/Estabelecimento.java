@@ -23,7 +23,7 @@ public class Estabelecimento {
 	
 	@Column(name = "avaliacao")
 	private int avaliacao;
-
+	
 	public Long getId() {
 		return id;
 	}

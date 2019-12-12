@@ -1,0 +1,74 @@
+package com.grm.mybreakfaster.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "produto")
+public class Produto {
+	
+	@Id
+	@Column(name = "id")
+	@GeneratedValue
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_estabelecimento")
+	private Estabelecimento estabelecimento;
+	
+	@Column(name = "imagem")
+	private String imagem;
+	
+	@Column(name = "descricao")
+	private String descricao;
+	
+	@Column(name = "valor")
+	private double valor;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Estabelecimento getEstabelecimento() {
+		return estabelecimento;
+	}
+
+	public void setEstabelecimento(Estabelecimento estabelecimento) {
+		this.estabelecimento = estabelecimento;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}	
+	
+	
+}
