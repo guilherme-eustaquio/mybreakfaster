@@ -1,3 +1,4 @@
+var id_usuario = 0;
 window.onload = function() {
 
 	let hashCode = window.location.toString();
@@ -8,7 +9,9 @@ window.onload = function() {
 	$("#perfil").load("./paginas/pagina-perfil.html");
 
 	carregarCards();
-	carregarPerfil(PK_USUARIO);	
+	
+	id_usuario = window.location.hash + "";
+	id_usuario = id_usuario.split("&")[1];
 };
 
 window.addEventListener('hashchange', function() {
@@ -18,13 +21,13 @@ window.addEventListener('hashchange', function() {
 		return;
 	}
 
-	verificarMenuPrincipal(window.location.hash.split("=")[0]);
+	verificarMenuPrincipal(window.location.hash);
 
 });
 
 function verificarMenuPrincipal(hash) {
 
-	switch(hash) {
+	switch(hash.split("=")[0]) {
 		case "#lista-restaurantes":
 
 			if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open") {
@@ -50,10 +53,11 @@ function verificarMenuPrincipal(hash) {
 				return;
 			}
 			menuAplicativo(2);
+			carregarPerfil(id_usuario);
 			break;
 
 		case "#lista-produto":
-			abrirProduto(hash[1]);
+			abrirProduto(hash.split("=")[1]);
 			break;
 
 	}
@@ -112,6 +116,7 @@ function esconderTodos() {
 
 var id_lido = 0;
 function abrirProduto(id) {
+
 	$("#lista-restaurantes").hide();
 	$("#lista-produtos").load("./paginas/pagina-produto.html");
 	$("#lista-produtos").show();
@@ -137,8 +142,35 @@ function carregarPerfil(id) {
 		type : 'GET'
 	 })
 	 .done(function(msg) {
+		document.getElementById("id-perfil").value = id;	
 		document.getElementById("nome-perfil").value = msg.nome;
 		document.getElementById("email-perfil").value = msg.email;
 		document.getElementById("senha-perfil").value = msg.senha;
 	 });	
 }
+
+function editarPerfil() {
+	
+	let id = document.getElementById("id-perfil").value;
+	let nome = document.getElementById("nome-perfil").value;
+	let email = document.getElementById("email-perfil").value;
+	let senha = document.getElementById("senha-perfil").value;
+
+	$.ajax({
+		url : HOST_DEV + "usuario/editar", 
+		type : 'POST',
+		data : 'email=' + email + '&senha=' + senha + '&id=' + id + '&nome=' + nome
+	 })
+	 .done(function(msg) {
+		document.getElementById("nome-perfil").value = msg.nome;
+		document.getElementById("email-perfil").value = msg.email;
+		document.getElementById("senha-perfil").value = msg.senha;
+		document.getElementById("modal-status-mensagem").innerHTML = "Usuário editado com sucesso!";		
+		abrirModal("modal-status");
+	 })
+	 .fail(function() {
+		document.getElementById("modal-status-mensagem").innerHTML = "Falha ao editar usuário!";		
+		abrirModal("modal-status");
+	 });
+}
+

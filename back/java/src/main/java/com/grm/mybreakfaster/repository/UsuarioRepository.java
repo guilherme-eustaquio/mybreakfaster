@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import com.grm.mybreakfaster.domain.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-	@Query("SELECT COUNT(*) FROM Usuario WHERE email = :email AND senha = :senha")
-	public Long login(@Param("email") String email, @Param("senha") String senha);
+	@Query("SELECT u FROM Usuario u WHERE email = :email AND senha = :senha")
+	public Usuario login(@Param("email") String email, @Param("senha") String senha);
 }

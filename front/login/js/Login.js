@@ -22,17 +22,15 @@ function validarDados(email, senha, sucesso, erro) {
 		data : 'email=' + email + '&senha=' + senha
 	 })
 	 .done(function(msg){
+
 		$("#carregando").hide();
-		obj = JSON.parse(msg);
 
-		switch(obj.result) {
-			case "OK":
-				location.assign("../dashboard/index.html#lista-restaurantes");		
-				break;
-			default:
-				gerarMensagemErro("Usuário ou senha incorretos!");
-		}
-
+		if(typeof(msg) == "object") {
+			location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);		
+		}	
+		else {
+			gerarMensagemErro("Usuário ou senha incorretos!");		
+		}	
 	 })
 	 .fail(function(jqXHR, textStatus, msg){
 		$("#carregando").hide();

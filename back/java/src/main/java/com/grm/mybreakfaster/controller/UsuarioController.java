@@ -19,13 +19,9 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@PostMapping
-	public String login(@RequestParam(name = "email") String email, @RequestParam(name = "senha") String senha) {
+	public Usuario login(@RequestParam(name = "email") String email, @RequestParam(name = "senha") String senha) {
+		return this.usuarioRepository.login(email, senha);
 		
-		if(usuarioRepository.login(email, senha) == 0) {
-			return String.format("{\"result\":\"%s\"}", "Usuário ou senha incorretos!");
-		}
-		
-		return "{\"result\":\"OK\"}";
 	}
 	
 	@GetMapping("/{id}")
@@ -33,17 +29,33 @@ public class UsuarioController {
 		return this.usuarioRepository.findById(id).get();
 	}
 	
-	@PostMapping("/update")
-	public String editarUsuario(@RequestParam(name = "id") Long id, @RequestParam(name = "email") String email, 
+	@PostMapping("/editar")
+	public Usuario editarUsuario(@RequestParam(name = "id") Long id, @RequestParam(name = "email") String email, 
 			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha) {
 		
 		Usuario usuario = this.usuarioRepository.findById(id).get();
+		
+		usuario.setId(id);
+		usuario.setEmail(email);
+		usuario.setNome(nome);
+		usuario.setSenha(senha);
+
+		this.usuarioRepository.save(usuario);		
+		return usuario;	
+	}
+	
+	@PostMapping("/criar")
+	public String criarUsuario(@RequestParam(name = "email") String email, 
+			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha) {
+		
+		Usuario usuario = new Usuario();
 		
 		usuario.setEmail(email);
 		usuario.setNome(nome);
 		usuario.setSenha(senha);
 
 		this.usuarioRepository.save(usuario);		
-		return "{\"result\":\"OK\"}";		
-	}
+		return "{\"result\":\"OK\"}";
+	}	
+	
 }
