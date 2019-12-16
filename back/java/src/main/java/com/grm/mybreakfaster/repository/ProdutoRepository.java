@@ -10,8 +10,8 @@ import com.grm.mybreakfaster.domain.Produto;
 
 public interface ProdutoRepository extends JpaRepository <Produto, Long> {
 	
-	@Query("SELECT p FROM Produto p WHERE id_estabelecimento = :id_estabelecimento")
-	public List<Produto> findByEstabelecimento(@Param("id_estabelecimento") Long id);
+	@Query("SELECT p FROM Produto p WHERE id_estabelecimento = :id_estabelecimento AND tipo = :tipo")
+	public List<Produto> findByEstabelecimento(@Param("id_estabelecimento") Long id, @Param("tipo") String tipo);
 	
 	//
 }

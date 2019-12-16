@@ -1,13 +1,17 @@
 package com.grm.mybreakfaster.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Entity
 @Table(name = "pedido")
@@ -18,24 +22,34 @@ public class Pedido {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne()
-	@JoinColumn(name = "id_produto")
-	private Produto produto;
+	@Column(name = "id_produto")
+	private Long produto;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario")
-	private Usuario usuario;
+	@Column(name = "id_usuario")
+	private Long usuario;
 	
 	@Column(name = "forma_pagamento")
 	private String formaPagamento;
 	
+	@Column(name = "endereco")
+	private String endereco;
+
+	@Column(nullable = false, updatable = false)
+	@CreationTimestamp
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	private Date dataCriacao;
+	
+	@Column(name = "status")
+	private Long status;
+	
 	public Pedido() {}
 	
-	public Pedido(Produto produto, Usuario usuario, String formaPagamento) {
+	public Pedido(Long produto, Long usuario, String formaPagamento, String endereco) {
 		super();
 		this.produto = produto;
 		this.usuario = usuario;
 		this.formaPagamento = formaPagamento;
+		this.endereco = endereco;
 	}
 
 	public Long getId() {
@@ -54,19 +68,46 @@ public class Pedido {
 		this.formaPagamento = formaPagamento;
 	}
 
-	public Produto getProduto() {
+	public Long getProduto() {
 		return produto;
 	}
 
-	public void setProduto(Produto produto) {
+	public void setProduto(Long produto) {
 		this.produto = produto;
 	}
 
-	public Usuario getUsuario() {
+	public Long getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(Long usuario) {
 		this.usuario = usuario;
 	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public Long getStatus() {
+		return status;
+	}
+
+	public void setStatus(Long status) {
+		this.status = status;
+	}
+
+	
+	
 }

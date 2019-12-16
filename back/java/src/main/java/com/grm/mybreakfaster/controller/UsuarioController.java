@@ -31,7 +31,8 @@ public class UsuarioController {
 	
 	@PostMapping("/editar")
 	public Usuario editarUsuario(@RequestParam(name = "id") Long id, @RequestParam(name = "email") String email, 
-			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha) {
+			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha,
+			@RequestParam(name = "endereco") String endereco) {
 		
 		Usuario usuario = this.usuarioRepository.findById(id).get();
 		
@@ -39,21 +40,23 @@ public class UsuarioController {
 		usuario.setEmail(email);
 		usuario.setNome(nome);
 		usuario.setSenha(senha);
-
+		usuario.setEndereco(endereco);
 		this.usuarioRepository.save(usuario);		
 		return usuario;	
 	}
 	
 	@PostMapping("/criar")
 	public String criarUsuario(@RequestParam(name = "email") String email, 
-			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha) {
+			@RequestParam(name = "nome") String nome, @RequestParam(name = "senha") String senha,
+			@RequestParam(name = "endereco") String endereco) {
 		
 		Usuario usuario = new Usuario();
 		
 		usuario.setEmail(email);
 		usuario.setNome(nome);
 		usuario.setSenha(senha);
-
+		usuario.setEndereco(endereco);
+		
 		this.usuarioRepository.save(usuario);		
 		return "{\"result\":\"OK\"}";
 	}	

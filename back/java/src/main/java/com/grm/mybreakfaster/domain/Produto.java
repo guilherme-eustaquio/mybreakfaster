@@ -24,6 +24,9 @@ public class Produto {
 	@Column(name = "descricao")
 	private String descricao;
 	
+	@Column(name = "tipo")
+	private String tipo;
+	
 	@Column(name = "valor")
 	private double valor;
 
@@ -65,7 +68,13 @@ public class Produto {
 
 	public void setIdEstabelecimento(Long id_estabelecimento) {
 		this.id_estabelecimento = id_estabelecimento;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}	
-	
-	
 }

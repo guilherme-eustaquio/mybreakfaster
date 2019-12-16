@@ -18,8 +18,14 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoRepository produtos;
 	
-	@GetMapping("/{id}")
-	public List<Produto> obterProdutos(@PathVariable long id) {	
-		return this.produtos.findByEstabelecimento(id);
+	@GetMapping("/{id}/{tipo}")
+	public List<Produto> obterProdutos(@PathVariable long id, @PathVariable String tipo) {	
+		return this.produtos.findByEstabelecimento(id, tipo);
 	}
+
+	@GetMapping("/{id}")
+	public Produto obterProdutos(@PathVariable long id) {	
+		return this.produtos.findById(id).get();
+	}
+
 }

@@ -26,7 +26,8 @@ function validarDados(email, senha, sucesso, erro) {
 		$("#carregando").hide();
 
 		if(typeof(msg) == "object") {
-			location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);		
+			location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);	
+			localStorage.setItem("id", msg.id);	
 		}	
 		else {
 			gerarMensagemErro("Usuário ou senha incorretos!");		

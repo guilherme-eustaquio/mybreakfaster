@@ -1,23 +1,28 @@
-var id_usuario = 0;
 window.onload = function() {
 
 	let hashCode = window.location.toString();
 
-	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html");
-	$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html");
-	$("#modais").load("./modais/modal.html");
-	$("#perfil").load("./paginas/pagina-perfil.html");
+	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html", function() {
 
-	carregarCards();
-	
-	id_usuario = window.location.hash + "";
-	id_usuario = id_usuario.split("&")[1];
+		$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html", function() {
+			$("#modais").load("./modais/modal.html", function() {
+				$("#perfil").load("./paginas/pagina-perfil.html", function() {
+					carregarCards();
+					verificarMenuPrincipal(window.location.hash);
+				});
+			});
+
+		});
+
+	});
+
 };
 
 window.addEventListener('hashchange', function() {
 	
-	if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
-		document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
+	if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
+		document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+		ativador_menu_opcao = 0;
 		return;
 	}
 
@@ -27,11 +32,14 @@ window.addEventListener('hashchange', function() {
 
 function verificarMenuPrincipal(hash) {
 
-	switch(hash.split("=")[0]) {
-		case "#lista-restaurantes":
+	let rehash = hash.split("=")[0];
+	rehash = rehash.split("&")[0];
 
-			if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open") {
-				document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
+	switch(rehash) {
+		case "#lista-restaurantes":
+			if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open") {
+				document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+				ativador_menu_opcao = 0;
 				return;
 			}
 			carregarCards();
@@ -39,27 +47,27 @@ function verificarMenuPrincipal(hash) {
 			break;
 		case "#lista-pedidos":
 
-			if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open") {
-				document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
+			if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open") {
+				document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+				ativador_menu_opcao = 0;
 				return;
 			}
-
+			carregarPedidos();
 			menuAplicativo(1);
 			break;
 		case "#perfil":
-
-			if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open") {
-				document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
+			if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open") {
+				document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+				ativador_menu_opcao = 0;
 				return;
 			}
 			menuAplicativo(2);
-			carregarPerfil(id_usuario);
+			carregarPerfil(localStorage.getItem("id"));
 			break;
 
 		case "#lista-produto":
 			abrirProduto(hash.split("=")[1]);
 			break;
-
 	}
 }
 
@@ -81,6 +89,63 @@ function carregarCards() {
 	 }).fail(function(jqXHR, textStatus, msg){
 		document.getElementById("carregando").style.display = "none";
 	 });
+}
+
+function carregarPedidos() {
+
+	let json_geral;	
+	document.getElementById("lista-pedidos").innerHTML = "";
+	$.ajax({
+		url : HOST_DEV + "pedidos/" + localStorage.getItem("id"),
+		type : 'GET'
+	 })
+	 .done(function(msg){
+
+		let json_pedido = msg;		
+		let contador = 0;
+		let contador_assincrono = 0;
+		
+		for(contador = 0; contador < json_pedido.length; contador++) {
+			
+			$.ajax({
+				url : HOST_DEV + "produtos/" + json_pedido[contador].produto,
+				type : 'GET'
+			 })
+			 .done(function(msg){
+				
+				let json_produto = msg;
+
+				$.ajax({
+					url : HOST_DEV + "estabelecimentos/" + json_produto.idEstabelecimento,
+					type : 'GET'
+				 })
+				 .done(function(msg){
+					
+					let json_estabelecimento = msg;
+					let card = new Card();
+
+					document.getElementById("lista-pedidos").innerHTML += card.gerarCardsPedidos(json_pedido[contador_assincrono], json_produto, json_estabelecimento);
+					contador_assincrono++;
+				 }).fail(function(jqXHR, textStatus, msg){
+
+
+				 });
+
+			 }).fail(function(jqXHR, textStatus, msg){
+
+
+			 });
+		
+
+		}
+
+
+
+	 }).fail(function(jqXHR, textStatus, msg){
+
+
+	 });
+
 }
 
 var ultima_pagina_acessada = 0;
@@ -126,13 +191,14 @@ function abrirProduto(id) {
 }
 
 function carregarProduto(tipo) {
+
 	$.ajax({
-		url : HOST_DEV + "produtos/" + id_lido, 
+		url : HOST_DEV + "produtos/" + id_lido + "/" + tipo, 
 		type : 'GET'
 	 })
 	 .done(function(msg){
 		let produtos = new Card();
-		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg);
+		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg, localStorage.getItem("id"));
 	 })
 }
 
@@ -146,6 +212,7 @@ function carregarPerfil(id) {
 		document.getElementById("nome-perfil").value = msg.nome;
 		document.getElementById("email-perfil").value = msg.email;
 		document.getElementById("senha-perfil").value = msg.senha;
+		document.getElementById("endereco-perfil").value = msg.endereco;
 	 });	
 }
 
@@ -155,11 +222,11 @@ function editarPerfil() {
 	let nome = document.getElementById("nome-perfil").value;
 	let email = document.getElementById("email-perfil").value;
 	let senha = document.getElementById("senha-perfil").value;
-
+	let endereco = document.getElementById("endereco-perfil").value;
 	$.ajax({
 		url : HOST_DEV + "usuario/editar", 
 		type : 'POST',
-		data : 'email=' + email + '&senha=' + senha + '&id=' + id + '&nome=' + nome
+		data : 'email=' + email + '&senha=' + senha + '&id=' + id + '&nome=' + nome + "&endereco=" + endereco
 	 })
 	 .done(function(msg) {
 		document.getElementById("nome-perfil").value = msg.nome;
@@ -173,4 +240,3 @@ function editarPerfil() {
 		abrirModal("modal-status");
 	 });
 }
-
