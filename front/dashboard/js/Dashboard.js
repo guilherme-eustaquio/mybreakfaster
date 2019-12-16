@@ -1,24 +1,30 @@
 window.onload = function() {
 
+	let hashCode = window.location.toString();
+
 	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html");
 	$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html");
 	$("#modais").load("./modais/modal.html");
 	$("#perfil").load("./paginas/pagina-perfil.html");
 
 	carregarCards();
-	
+	carregarPerfil(PK_USUARIO);	
 };
 
 window.addEventListener('hashchange', function() {
-
+	
 	if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
 		document.getElementById("navbarsExampleDefault").className = "navbar-collapse offcanvas-collapse";
 		return;
-	}	
+	}
 
-	let hash = window.location.hash.split("=");
+	verificarMenuPrincipal(window.location.hash.split("=")[0]);
 
-	switch(hash[0]) {
+});
+
+function verificarMenuPrincipal(hash) {
+
+	switch(hash) {
 		case "#lista-restaurantes":
 
 			if(document.getElementById("navbarsExampleDefault").className == "navbar-collapse offcanvas-collapse open") {
@@ -47,13 +53,11 @@ window.addEventListener('hashchange', function() {
 			break;
 
 		case "#lista-produto":
-			carregarProduto(hash[1]);
+			abrirProduto(hash[1]);
 			break;
 
 	}
-
-});
-
+}
 
 function abrirModal(tipo) {
 	$('#' + tipo).modal('toggle');
@@ -63,16 +67,12 @@ function carregarCards() {
 
 	document.getElementById("carregando").style.display = "block";
 	$.ajax({
-		url : "https://domod.com.br/mybreakfaster/obterEstabelecimentos.php",
+		url : HOST_DEV + "estabelecimentos",
 		type : 'GET'
 	 })
 	 .done(function(msg){
-
-		obj = JSON.parse(msg);
-
 		let restaurantes = new Card();
-
-		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(obj);
+		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(msg);
 		document.getElementById("carregando").style.display = "none";
 	 }).fail(function(jqXHR, textStatus, msg){
 		document.getElementById("carregando").style.display = "none";
@@ -110,26 +110,35 @@ function esconderTodos() {
 	}
 }
 
-function carregarProduto(id) {
-
+var id_lido = 0;
+function abrirProduto(id) {
 	$("#lista-restaurantes").hide();
 	$("#lista-produtos").load("./paginas/pagina-produto.html");
 	$("#lista-produtos").show();
+	id_lido = id;
 	esconderTodos();
 
+}
 
+function carregarProduto(tipo) {
 	$.ajax({
-		url : "https://domod.com.br/mybreakfaster/obterProdutos.php?id=" + id,
+		url : HOST_DEV + "produtos/" + id_lido, 
 		type : 'GET'
 	 })
 	 .done(function(msg){
-
 		let produtos = new Card();
-		let json = JSON.parse(msg);	
+		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg);
+	 })
+}
 
-		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(json);
-
-	 });
-	
-
+function carregarPerfil(id) {
+	$.ajax({
+		url : HOST_DEV + "usuario/" + id, 
+		type : 'GET'
+	 })
+	 .done(function(msg) {
+		document.getElementById("nome-perfil").value = msg.nome;
+		document.getElementById("email-perfil").value = msg.email;
+		document.getElementById("senha-perfil").value = msg.senha;
+	 });	
 }

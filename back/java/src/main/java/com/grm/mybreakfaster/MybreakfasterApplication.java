@@ -9,5 +9,5 @@ public class MybreakfasterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MybreakfasterApplication.class, args);
 	}
-
+	
 }

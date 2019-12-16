@@ -17,7 +17,7 @@ function validarDados(email, senha, sucesso, erro) {
 	$("#carregando").show();
 
 	$.ajax({
-		url : "https://domod.com.br/mybreakfaster/login.php",
+		url : HOST_DEV + "usuario/",
 		type : 'POST',
 		data : 'email=' + email + '&senha=' + senha
 	 })
