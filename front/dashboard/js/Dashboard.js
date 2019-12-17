@@ -1,13 +1,14 @@
-window.onload = function() {
+include("./css/offcanvas.css","./js/offcanvas.js","./js/classes/Card.js");
 
+$(document).ready(function() {
+	
 	let hashCode = window.location.toString();
 
 	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html", function() {
 
 		$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html", function() {
 			$("#modais").load("./modais/modal.html", function() {
-				$("#perfil").load("./paginas/pagina-perfil.html", function() {
-					carregarCards();
+				$("#perfil").load("./paginas/pagina-perfil.html", function() {	
 					verificarMenuPrincipal(window.location.hash);
 				});
 			});
@@ -16,7 +17,8 @@ window.onload = function() {
 
 	});
 
-};
+});
+
 
 window.addEventListener('hashchange', function() {
 	
@@ -77,18 +79,26 @@ function abrirModal(tipo) {
 
 function carregarCards() {
 
+	let object = {
+		path: "estabelecimentos",
+		method: "GET",
+		data: ""
+	};	
+	
 	document.getElementById("carregando").style.display = "block";
-	$.ajax({
-		url : HOST_DEV + "estabelecimentos",
-		type : 'GET'
-	 })
-	 .done(function(msg){
-		let restaurantes = new Card();
-		document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(msg);
-		document.getElementById("carregando").style.display = "none";
-	 }).fail(function(jqXHR, textStatus, msg){
-		document.getElementById("carregando").style.display = "none";
-	 });
+
+	Network.makeHttpReq(object, 
+		
+		function success(msg) {
+			let restaurantes = new Card();
+			document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(msg);
+			document.getElementById("carregando").style.display = "none";
+		},
+
+		function failed() {
+			document.getElementById("carregando").style.display = "none";
+		}
+	);
 }
 
 function carregarPedidos() {
@@ -192,28 +202,42 @@ function abrirProduto(id) {
 
 function carregarProduto(tipo) {
 
-	$.ajax({
-		url : HOST_DEV + "produtos/" + id_lido + "/" + tipo, 
-		type : 'GET'
-	 })
-	 .done(function(msg){
-		let produtos = new Card();
-		document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg, localStorage.getItem("id"));
-	 })
+
+	let object = {
+		path:"produtos/" + id_lido + "/" + tipo,
+		method: "GET",
+		data: ""
+	};	
+
+	Network.makeHttpReq(object, 
+		
+		function success(msg) {
+			let produtos = new Card();
+			document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg, localStorage.getItem("id"));
+		},
+		function failed() {}
+	);
 }
 
 function carregarPerfil(id) {
-	$.ajax({
-		url : HOST_DEV + "usuario/" + id, 
-		type : 'GET'
-	 })
-	 .done(function(msg) {
-		document.getElementById("id-perfil").value = id;	
-		document.getElementById("nome-perfil").value = msg.nome;
-		document.getElementById("email-perfil").value = msg.email;
-		document.getElementById("senha-perfil").value = msg.senha;
-		document.getElementById("endereco-perfil").value = msg.endereco;
-	 });	
+	
+	let object = {
+		path:"usuario/" + id,
+		method: "GET",
+		data: ""
+	};	
+
+	Network.makeHttpReq(object, 
+		
+		function success(msg) {
+			document.getElementById("id-perfil").value = id;	
+			document.getElementById("nome-perfil").value = msg.nome;
+			document.getElementById("email-perfil").value = msg.email;
+			document.getElementById("senha-perfil").value = msg.senha;
+			document.getElementById("endereco-perfil").value = msg.endereco;
+		},
+		function failed() {}
+	);
 }
 
 function editarPerfil() {
@@ -223,20 +247,25 @@ function editarPerfil() {
 	let email = document.getElementById("email-perfil").value;
 	let senha = document.getElementById("senha-perfil").value;
 	let endereco = document.getElementById("endereco-perfil").value;
-	$.ajax({
-		url : HOST_DEV + "usuario/editar", 
-		type : 'POST',
-		data : 'email=' + email + '&senha=' + senha + '&id=' + id + '&nome=' + nome + "&endereco=" + endereco
-	 })
-	 .done(function(msg) {
-		document.getElementById("nome-perfil").value = msg.nome;
-		document.getElementById("email-perfil").value = msg.email;
-		document.getElementById("senha-perfil").value = msg.senha;
-		document.getElementById("modal-status-mensagem").innerHTML = "Usuário editado com sucesso!";		
-		abrirModal("modal-status");
-	 })
-	 .fail(function() {
-		document.getElementById("modal-status-mensagem").innerHTML = "Falha ao editar usuário!";		
-		abrirModal("modal-status");
-	 });
+
+	let object = {
+		path:"usuario/editar",
+		method: "POST",
+		data: 'email=' + email + '&senha=' + senha + '&id=' + id + '&nome=' + nome + "&endereco=" + endereco
+	};	
+
+	Network.makeHttpReq(object, 
+		
+		function success(msg) {
+			document.getElementById("nome-perfil").value = msg.nome;
+			document.getElementById("email-perfil").value = msg.email;
+			document.getElementById("senha-perfil").value = msg.senha;
+			document.getElementById("modal-status-mensagem").innerHTML = "Usuário editado com sucesso!";		
+			abrirModal("modal-status");
+		},
+		function failed() {
+			document.getElementById("modal-status-mensagem").innerHTML = "Falha ao editar usuário!";		
+			abrirModal("modal-status");		
+		}
+	);
 }

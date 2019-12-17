@@ -1,9 +1,27 @@
+include('./css/signin.css');
+
 function login() {
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
 	
-	validarDados(email, senha);
+	let json = {email:email, senha:senha};
+
+	let obj = [
+		
+		{
+			path: "estabelecimentos",
+			method: "GET",
+			data: "", 
+		},
+		{
+			path: "produtos/1",
+			method: "GET",
+			data: "", 
+		}
+	];
+
+	validarDados(json);
 }
 
 function gerarMensagemErro(mensagem) {
@@ -11,30 +29,32 @@ function gerarMensagemErro(mensagem) {
 	$("#mensagem-de-erro").toggle(200);
 }
 
+function validarDados(json) {
 
-function validarDados(email, senha, sucesso, erro) {
-
+	
 	$("#carregando").show();
 
-	$.ajax({
-		url : HOST_DEV + "usuario/",
-		type : 'POST',
-		data : 'email=' + email + '&senha=' + senha
-	 })
-	 .done(function(msg){
+	object = {
+		path: "usuario",
+		method: "POST",
+		data: "email=" + json.email + "&senha=" + json.senha, 
+	};
 
-		$("#carregando").hide();
+	Network.makeHttpReq(object, 
+		function success(msg) {
+			if(typeof(msg) == "object") {
+				location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);	
+				localStorage.setItem("id", msg.id);	
+			}	
+			else {
+				gerarMensagemErro("Usuário ou senha incorretos!");		
+			}
+		},
 
-		if(typeof(msg) == "object") {
-			location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);	
-			localStorage.setItem("id", msg.id);	
-		}	
-		else {
-			gerarMensagemErro("Usuário ou senha incorretos!");		
-		}	
-	 })
-	 .fail(function(jqXHR, textStatus, msg){
-		$("#carregando").hide();
-		gerarMensagemErro("Erro no servidor");
-	 });
+		function failed() {
+			$("#carregando").hide();
+			gerarMensagemErro("Erro no servidor");
+		}
+	);
+	
 }
