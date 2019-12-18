@@ -10,7 +10,6 @@ class Modal {
 	
 	createModal() {
 
-
 		if(document.getElementById(this.id)) {
 			return;
 		}
@@ -28,7 +27,6 @@ class Modal {
 		}
 		
 		str += StringEasy.format('</div><div class="modal-body">%s</div></div></div></div>', this.body);
-		
 		document.getElementsByTagName(this.element)[0].innerHTML += str;
 	}
 

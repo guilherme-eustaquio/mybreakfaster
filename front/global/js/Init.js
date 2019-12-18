@@ -1,11 +1,17 @@
 function include() {
 
-	$.getScript("../global/js/class/StringEasy.class.js");
-	$.getScript("../global/js/class/Network.class.js");
-	$.getScript("../global/js/class/Modal.class.js");
-	$.getScript("../global/js/Listener.js");
-	$.getScript("../global/js/Server.js");
-	$.getScript("../global/js/third/bootstrap.min.js");
+	let static_scripts = [
+		"../global/js/Server.js",
+		"../global/js/class/StringEasy.class.js",
+		"../global/js/class/Network.class.js",
+		//"../global/js/class/Geolocation.class.js",
+		"../global/js/class/Map.class.js",
+		"../global/js/class/Modal.class.js",
+		"../global/js/listeners/Modal.js",
+		"../global/js/third/bootstrap.min.js"
+	];
+
+	loadScripts(static_scripts, 0);
 
 	$("<link/>", {
 	   rel: "stylesheet",
@@ -23,11 +29,10 @@ function include() {
 	   "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
 	}).appendTo("head");
 
-
 	for (let count = 0; count < arguments.length; count++) {
 		
 		if(arguments[count].includes(".js")) {
-			$.getScript(arguments[count]);
+			loadScript(arguments[count]);
 		}
 		
 		if(arguments[count].includes(".css")) {
@@ -40,3 +45,23 @@ function include() {
 	}
 }
 
+function loadScripts(scripts, count) {
+
+	if(count == scripts.length) {
+		return;
+	}
+
+	$.getScript(scripts[count], function(data, textStatus, jqxhr) {
+		if(jqxhr.status != 200) {
+			return;
+		}
+	}).done(function() {
+		count++;
+		loadScripts(scripts, count);
+	});
+}
+
+function loadScript(script) {
+	let array = [script];
+	loadScripts(array, 0);
+}

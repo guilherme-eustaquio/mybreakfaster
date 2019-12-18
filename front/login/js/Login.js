@@ -1,27 +1,15 @@
 include('./css/signin.css');
 
 function login() {
+
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
 	
 	let json = {email:email, senha:senha};
 
-	let obj = [
-		
-		{
-			path: "estabelecimentos",
-			method: "GET",
-			data: "", 
-		},
-		{
-			path: "produtos/1",
-			method: "GET",
-			data: "", 
-		}
-	];
-
 	validarDados(json);
+	
 }
 
 function gerarMensagemErro(mensagem) {
@@ -31,7 +19,6 @@ function gerarMensagemErro(mensagem) {
 
 function validarDados(json) {
 
-	
 	$("#carregando").show();
 
 	object = {

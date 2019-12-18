@@ -12,13 +12,11 @@ $(document).ready(function() {
 					verificarMenuPrincipal(window.location.hash);
 				});
 			});
-
 		});
 
 	});
 
 });
-
 
 window.addEventListener('hashchange', function() {
 	
@@ -73,8 +71,23 @@ function verificarMenuPrincipal(hash) {
 	}
 }
 
-function abrirModal(tipo) {
-	$('#' + tipo).modal('toggle');
+function abrirModal(tipo, titulo, corpo) {
+
+	let properties_status = {
+		id:tipo,
+		element: "body",
+		title: {
+			keyboard: true, 
+			backdrop: "",
+			nameOf: titulo,
+			exit: true
+		},
+		body: corpo
+	};
+
+	let modal = new Modal(properties_status);
+	modal.createModal();
+	modal.showModal();
 }
 
 function carregarCards() {
@@ -260,12 +273,11 @@ function editarPerfil() {
 			document.getElementById("nome-perfil").value = msg.nome;
 			document.getElementById("email-perfil").value = msg.email;
 			document.getElementById("senha-perfil").value = msg.senha;
-			document.getElementById("modal-status-mensagem").innerHTML = "Usuário editado com sucesso!";		
-			abrirModal("modal-status");
+			abrirModal("modal-status", "Aviso", "Usuário cadastrado com sucesso!");
 		},
 		function failed() {
-			document.getElementById("modal-status-mensagem").innerHTML = "Falha ao editar usuário!";		
-			abrirModal("modal-status");		
+			abrirModal("modal-status", "Aviso", "Falha ao editar usuário!");
+	
 		}
 	);
 }
