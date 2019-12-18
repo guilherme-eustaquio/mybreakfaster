@@ -27,7 +27,10 @@ class Modal {
 		}
 		
 		str += StringEasy.format('</div><div class="modal-body">%s</div></div></div></div>', this.body);
-		document.getElementsByTagName(this.element)[0].innerHTML += str;
+		
+		$("body").append(str);
+		//document.getElementById("").innerHTML += str;
+		//document.getElementsByTagName(this.element)[0].innerHTML += str;
 	}
 
 	showModal() {
