@@ -5,7 +5,7 @@ class Modal {
 		this.element = json.element;
 		this.title = json.title;
 		this.body = json.body;
-		//this.bottom = json.bottom;
+		this.bottom = json.bottom;
 	}
 	
 	createModal() {
@@ -14,7 +14,7 @@ class Modal {
 			return;
 		}
 
-		let str = StringEasy.format('<div class="modal fade" id = "%s" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="%s">', this.id, this.title.keyboard);
+		let str = StringEasy.format('<div class="modal fade" id = "%s" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="%s", data-backdrop = "%s">', this.id, this.title.keyboard, this.title.backdrop);
 
 		str += '<div class="modal-dialog modal-dialog-centered" role="document">';
 		str += '<div class="modal-content">';
@@ -29,8 +29,6 @@ class Modal {
 		str += StringEasy.format('</div><div class="modal-body">%s</div></div></div></div>', this.body);
 		
 		$("body").append(str);
-		//document.getElementById("").innerHTML += str;
-		//document.getElementsByTagName(this.element)[0].innerHTML += str;
 	}
 
 	showModal() {
