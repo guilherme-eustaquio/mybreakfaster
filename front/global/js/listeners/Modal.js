@@ -9,6 +9,7 @@ const properties_status = {
 	},
 	body: "You're offline!"
 };
+
 const modal_status = new Modal(properties_status);
 
 window.addEventListener('online', function() {

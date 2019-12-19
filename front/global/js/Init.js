@@ -2,12 +2,15 @@ function include() {
 
 	let static_scripts = [
 		"../global/js/Server.js",
+		"../global/js/Event.js",
 		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Network.class.js",
+		"../global/js/class/Loading.class.js",
 		//"../global/js/class/Geolocation.class.js",
 		"../global/js/class/Map.class.js",
 		"../global/js/class/Modal.class.js",
 		"../global/js/listeners/Modal.js",
+		"../global/js/listeners/Loading.js",
 		"../global/js/third/bootstrap.min.js"
 	];
 

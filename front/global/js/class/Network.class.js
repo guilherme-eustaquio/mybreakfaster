@@ -4,9 +4,11 @@ let queueReq = {};
 
 class Network {
 	
-	static makeHttpReq(json, sucess, fail) {
+	static makeHttpReq(json, sucess, fail, loading) {
 		
-		let host = HOST_DEV;		
+		let host = HOST_DEV;
+
+		window.dispatchEvent(LOADING_EVENT);	
 
 		if(json.host !== undefined) {
 			host = json.host;
@@ -17,11 +19,16 @@ class Network {
 			type : json.method,
 			data : json.data
 		 })
-		 .done(function(msg){
-			sucess(msg);			
+		 .done(function(msg) {
+		 	
+			window.dispatchEvent(LOADING_EVENT);
+						
+			sucess(msg);		
 		 }).fail(function(jqXHR, textStatus, msg){
+		 	
+			window.dispatchEvent(LOADING_EVENT);		
 			fail(jqXHR, textStatus, msg);
-		 });		
+		});		
 	}
 
 
@@ -36,10 +43,10 @@ class Network {
 			function sucess(msg) {
 				queueReq[countReq] = msg;
 				countReq++;
-				Network.multipleHttpReq(json, success, null);
+				Network.multipleHttpReq(json, success, failed);
 			},
 			function error(jqXHR, textStatus, msg) {
-				fail(jqXHR, textStatus, msg);
+				failed(jqXHR, textStatus, msg);
 				return;
 			}
 		);

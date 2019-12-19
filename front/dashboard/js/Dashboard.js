@@ -98,18 +98,15 @@ function carregarCards() {
 		data: ""
 	};	
 	
-	document.getElementById("carregando").style.display = "block";
-
 	Network.makeHttpReq(object, 
 		
 		function success(msg) {
 			let restaurantes = new Card();
 			document.getElementById("lista-restaurantes").innerHTML = restaurantes.gerarCardEstabelecimento(msg);
-			document.getElementById("carregando").style.display = "none";
 		},
 
 		function failed() {
-			document.getElementById("carregando").style.display = "none";
+
 		}
 	);
 }

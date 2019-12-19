@@ -19,8 +19,6 @@ function gerarMensagemErro(mensagem) {
 
 function validarDados(json) {
 
-	$("#carregando").show();
-
 	object = {
 		path: "usuario",
 		method: "POST",
@@ -39,7 +37,6 @@ function validarDados(json) {
 		},
 
 		function failed() {
-			$("#carregando").hide();
 			gerarMensagemErro("Erro no servidor");
 		}
 	);
