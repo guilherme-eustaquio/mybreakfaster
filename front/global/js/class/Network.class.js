@@ -4,11 +4,11 @@ let queueReq = {};
 
 class Network {
 	
-	static makeHttpReq(json, sucess, fail, loading) {
+	static makeHttpReq(json, sucess, fail) {
 		
 		let host = HOST_DEV;
-
-		window.dispatchEvent(LOADING_EVENT);	
+		
+		Loading.showLoading();
 
 		if(json.host !== undefined) {
 			host = json.host;
@@ -20,13 +20,10 @@ class Network {
 			data : json.data
 		 })
 		 .done(function(msg) {
-		 	
-			window.dispatchEvent(LOADING_EVENT);
-						
+			Loading.hideLoading();
 			sucess(msg);		
 		 }).fail(function(jqXHR, textStatus, msg){
-		 	
-			window.dispatchEvent(LOADING_EVENT);		
+			Loading.hideLoading();
 			fail(jqXHR, textStatus, msg);
 		});		
 	}

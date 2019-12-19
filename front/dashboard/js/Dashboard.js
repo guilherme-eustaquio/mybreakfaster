@@ -1,9 +1,14 @@
-include("./css/offcanvas.css","./js/offcanvas.js","./js/classes/Card.js");
+let libs = [
+	"./js/classes/Card.js",
+	"./js/offcanvas.js",
+	"./css/offcanvas.css"
+];
 
-$(document).ready(function() {
+include(libs, main);
+
+function main() {
+
 	
-	let hashCode = window.location.toString();
-
 	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html", function() {
 
 		$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html", function() {
@@ -15,8 +20,8 @@ $(document).ready(function() {
 		});
 
 	});
-
-});
+	
+}
 
 window.addEventListener('hashchange', function() {
 	
@@ -78,7 +83,7 @@ function abrirModal(tipo, titulo, corpo) {
 		element: "body",
 		title: {
 			keyboard: true, 
-			backdrop: "",
+			backdrop: "static",
 			nameOf: titulo,
 			exit: true
 		},

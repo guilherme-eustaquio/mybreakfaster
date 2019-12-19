@@ -1,17 +1,16 @@
-function include() {
+function include(libs, init) {
 
 	let static_scripts = [
+		"../global/js/third/bootstrap.min.js",
 		"../global/js/Server.js",
-		"../global/js/Event.js",
-		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Network.class.js",
 		"../global/js/class/Loading.class.js",
+		"../global/js/Event.js",
+		"../global/js/class/StringEasy.class.js",
 		//"../global/js/class/Geolocation.class.js",
-		"../global/js/class/Map.class.js",
+		//"../global/js/class/Map.class.js",
 		"../global/js/class/Modal.class.js",
-		"../global/js/listeners/Modal.js",
-		"../global/js/listeners/Loading.js",
-		"../global/js/third/bootstrap.min.js"
+		"../global/js/listeners/Modal.js"
 	];
 
 	loadScripts(static_scripts, 0);
@@ -20,6 +19,12 @@ function include() {
 	   rel: "stylesheet",
 	   type: "text/css",
 	   href: "../global/css/bootstrap.min.css"
+	}).appendTo("head");
+
+	$("<link/>", {
+	   rel: "stylesheet",
+	   type: "text/css",
+	   href: "../global/css/loading.css"
 	}).appendTo("head");
 
 	$("<meta/>", {
@@ -31,21 +36,25 @@ function include() {
 	   "name": "viewport",
 	   "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
 	}).appendTo("head");
-
-	for (let count = 0; count < arguments.length; count++) {
+	
+	
+	for (let count = 0; count < libs.length; count++) {
 		
-		if(arguments[count].includes(".js")) {
-			loadScript(arguments[count]);
+		if(libs[count].includes(".js")) {
+			loadScript(libs[count]);
 		}
 		
-		if(arguments[count].includes(".css")) {
+		if(libs[count].includes(".css")) {
 			$("<link/>", {
 			   rel: "stylesheet",
 			   type: "text/css",
-			   href: arguments[count]
+			   href: libs[count]
 			}).appendTo("head");
 		}
 	}
+	
+	$(document).ready(init);
+
 }
 
 function loadScripts(scripts, count) {

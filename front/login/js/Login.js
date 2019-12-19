@@ -1,4 +1,8 @@
-include('./css/signin.css');
+const lib = [
+	'./css/signin.css'
+]
+
+include(lib);
 
 function login() {
 
