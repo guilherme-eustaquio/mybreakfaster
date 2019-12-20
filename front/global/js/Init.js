@@ -1,5 +1,7 @@
-function include(libs, init) {
 
+
+function include(libs, init) {
+	$.holdReady(true);
 	let static_scripts = [
 		"../global/js/third/bootstrap.min.js",
 		"../global/js/Server.js",
@@ -7,8 +9,6 @@ function include(libs, init) {
 		"../global/js/class/Loading.class.js",
 		"../global/js/Event.js",
 		"../global/js/class/StringEasy.class.js",
-		//"../global/js/class/Geolocation.class.js",
-		//"../global/js/class/Map.class.js",
 		"../global/js/class/Modal.class.js",
 		"../global/js/listeners/Modal.js"
 	];
@@ -39,7 +39,7 @@ function include(libs, init) {
 	
 	
 	for (let count = 0; count < libs.length; count++) {
-		
+
 		if(libs[count].includes(".js")) {
 			loadScript(libs[count]);
 		}
@@ -52,14 +52,16 @@ function include(libs, init) {
 			}).appendTo("head");
 		}
 	}
-	
-	$(document).ready(init);
+	$(document).ready(function() {
+		init();
+	});
 
 }
 
 function loadScripts(scripts, count) {
 
 	if(count == scripts.length) {
+		$.holdReady(false);
 		return;
 	}
 
@@ -67,6 +69,7 @@ function loadScripts(scripts, count) {
 		if(jqxhr.status != 200) {
 			return;
 		}
+		
 	}).done(function() {
 		count++;
 		loadScripts(scripts, count);
@@ -75,5 +78,6 @@ function loadScripts(scripts, count) {
 
 function loadScript(script) {
 	let array = [script];
+
 	loadScripts(array, 0);
 }

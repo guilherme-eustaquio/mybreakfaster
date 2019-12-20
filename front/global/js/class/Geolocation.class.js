@@ -1,10 +1,12 @@
 class Geolocation {
 	
+	
 	constructor() {
 		this.watch = null;
 	}
-
+	
 	getStaticPosition(callback) {
+
 		navigator.geolocation.getCurrentPosition(
 			function(position) {
 				callback(position);
@@ -26,4 +28,5 @@ class Geolocation {
 		}
 		navigator.geolocation.clearWatch(this.watch);
 	}
+	
 }
