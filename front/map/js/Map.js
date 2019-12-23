@@ -12,10 +12,7 @@ include(libs, main);
 
 function main() {
 
-	let geolocation = new Geolocation();
-
-
-	geolocation.getStaticPosition(function(position) {
+	Geolocation.getStaticPosition(function(position) {
 		Map.getInstance(position, {
 			id: "map",
 			zoom: 18,
@@ -27,7 +24,7 @@ function main() {
 		});
 	});
 
-	geolocation.getDynamicPosition(function(position) {
+	Geolocation.getDynamicPosition(function(position) {
 		Map.setPosition(position);
 	});
 }

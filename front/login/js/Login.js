@@ -2,7 +2,11 @@ const lib = [
 	'./css/signin.css'
 ]
 
-include(lib);
+include(lib, function() {
+
+	alert("oi");
+
+});
 
 function login() {
 

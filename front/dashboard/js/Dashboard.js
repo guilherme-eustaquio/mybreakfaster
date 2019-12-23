@@ -77,8 +77,7 @@ function verificarMenuPrincipal(hash) {
 }
 
 function abrirModal(tipo, titulo, corpo) {
-
-	let properties_status = {
+	Modal.show({
 		id:tipo,
 		element: "body",
 		title: {
@@ -88,11 +87,7 @@ function abrirModal(tipo, titulo, corpo) {
 			exit: true
 		},
 		body: corpo
-	};
-
-	let modal = new Modal(properties_status);
-	modal.createModal();
-	modal.showModal();
+	});
 }
 
 function carregarCards() {

@@ -1,11 +1,6 @@
 class Geolocation {
 	
-	
-	constructor() {
-		this.watch = null;
-	}
-	
-	getStaticPosition(callback) {
+	static getStaticPosition(callback) {
 
 		navigator.geolocation.getCurrentPosition(
 			function(position) {
@@ -14,19 +9,19 @@ class Geolocation {
 		);
 	}
 
-	getDynamicPosition(callback) {
-		this.watch = navigator.geolocation.watchPosition(
+	static getDynamicPosition(callback) {
+		Geolocation.watch = navigator.geolocation.watchPosition(
 			function(position) {
 				callback(position);
 			}
 		);
 	}
 
-	stopDynamicPosition() {
-		if(this.watch === undefined) {
+	static stopDynamicPosition() {
+		if(Geolocation.watch === undefined) {
 			return;
 		}
-		navigator.geolocation.clearWatch(this.watch);
+		navigator.geolocation.clearWatch(Geolocation.watch);
 	}
 	
 }

@@ -1,7 +1,7 @@
-
-
 function include(libs, init) {
+
 	$.holdReady(true);
+
 	let static_scripts = [
 		"../global/js/third/bootstrap.min.js",
 		"../global/js/Server.js",
@@ -10,7 +10,9 @@ function include(libs, init) {
 		"../global/js/Event.js",
 		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Modal.class.js",
-		"../global/js/listeners/Modal.js"
+		"../global/js/listeners/Modal.js",
+		"../global/js/native/Alert.js",
+		"../global/js/native/Prompt.js"
 	];
 
 	loadScripts(static_scripts, 0);
@@ -52,10 +54,12 @@ function include(libs, init) {
 			}).appendTo("head");
 		}
 	}
-	$(document).ready(function() {
-		init();
-	});
 
+	$(document).ready(function() {
+		if(init !== undefined) {
+			init();
+		}
+	});
 }
 
 function loadScripts(scripts, count) {
