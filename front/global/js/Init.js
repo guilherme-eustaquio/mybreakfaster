@@ -54,7 +54,8 @@ function include(libs, init) {
 			}).appendTo("head");
 		}
 	}
-
+	$.holdReady(false);
+	
 	$(document).ready(function() {
 		if(init !== undefined) {
 			init();
@@ -65,7 +66,6 @@ function include(libs, init) {
 function loadScripts(scripts, count) {
 
 	if(count == scripts.length) {
-		$.holdReady(false);
 		return;
 	}
 

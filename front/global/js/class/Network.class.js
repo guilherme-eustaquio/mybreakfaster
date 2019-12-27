@@ -1,7 +1,3 @@
-let countReq = 0;
-let lastMsgReq = null;
-let queueReq = {};
-
 class Network {
 	
 	static makeHttpReq(json, sucess, fail) {
@@ -28,18 +24,23 @@ class Network {
 		});		
 	}
 
-
 	static multipleHttpReq(json, success, failed) {
+		
+		if(Network.countReq === undefined) {
+			Network.countReq = 0;
+			Network.queueReq = [];
+		}
 
 		if(countReq == json.length) {
-			success(queueReq);		
+			success(Network.queueReq);
+			Network.countReq = undefined;
 			return;
 		}	
 		
-		Network.makeHttpReq(json[countReq], 
+		Network.makeHttpReq(json[Network.countReq], 
 			function sucess(msg) {
-				queueReq[countReq] = msg;
-				countReq++;
+				Network.queueReq[Network.countReq] = msg;
+				Network.countReq++;
 				Network.multipleHttpReq(json, success, failed);
 			},
 			function error(jqXHR, textStatus, msg) {

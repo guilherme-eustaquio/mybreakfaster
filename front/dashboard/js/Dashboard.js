@@ -1,16 +1,15 @@
 let libs = [
 	"./js/classes/Card.js",
 	"./js/offcanvas.js",
-	"./css/offcanvas.css"
+	"./css/offcanvas.css",
+	"../global/js/class/Geolocation.class.js"
 ];
 
 include(libs, main);
 
 function main() {
 
-	
 	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html", function() {
-
 		$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html", function() {
 			$("#modais").load("./modais/modal.html", function() {
 				$("#perfil").load("./paginas/pagina-perfil.html", function() {	
@@ -115,6 +114,7 @@ function carregarPedidos() {
 
 	let json_geral;	
 	document.getElementById("lista-pedidos").innerHTML = "";
+
 	$.ajax({
 		url : HOST_DEV + "pedidos/" + localStorage.getItem("id"),
 		type : 'GET'
@@ -205,28 +205,43 @@ function abrirProduto(id) {
 	$("#lista-restaurantes").hide();
 	$("#lista-produtos").load("./paginas/pagina-produto.html");
 	$("#lista-produtos").show();
+
 	id_lido = id;
 	esconderTodos();
 
 }
 
-function carregarProduto(tipo) {
+function carregarProduto() {
 
 
-	let object = {
-		path:"produtos/" + id_lido + "/" + tipo,
-		method: "GET",
-		data: ""
-	};	
-
-	Network.makeHttpReq(object, 
+	Geolocation.getStaticPosition(function(position) {
 		
-		function success(msg) {
-			let produtos = new Card();
-			document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg, localStorage.getItem("id"));
-		},
-		function failed() {}
-	);
+		let mcdonalds_coordenadas = {longitude:-48.3195492, latitude:-18.9160555};
+
+		if(Geolocation.isClose(mcdonalds_coordenadas, position.coords)) {
+			tipo = 'local';
+		}
+		else {
+			tipo = 'casa';
+		}
+	
+		let object = {
+			path:"produtos/" + id_lido + "/" + tipo,
+			method: "GET",
+			data: ""
+		};	
+
+		Network.makeHttpReq(object, 
+			
+			function success(msg) {
+				let produtos = new Card();
+				document.getElementById("produtos-cards").innerHTML = produtos.gerarCardProdutos(msg, localStorage.getItem("id"));
+			},
+			function failed() {}
+		);
+
+	});
+
 }
 
 function carregarPerfil(id) {
