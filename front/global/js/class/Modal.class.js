@@ -1,7 +1,7 @@
 class Modal {
 
 	static show(properties, callback) {
-		
+
 		if(properties === undefined) {
 			return;
 		}
@@ -14,11 +14,6 @@ class Modal {
 		}		
 
 		Modal.opened = true;		
-	
-		if(document.getElementById(Modal.properties.id)) {
-			$("#" + Modal.properties.id).modal('show');
-			return;
-		}
 
 		let str = StringEasy.format('<div class="modal fade" id = "%s" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="%s", data-backdrop = "%s">', Modal.properties.id, Modal.properties.title.keyboard, Modal.properties.title.backdrop);
 
@@ -45,13 +40,20 @@ class Modal {
 
 		$('.modal').on('hidden.bs.modal', function (e) {
 
+			if(callback !== undefined) {
+				callback();
+			}
+
+			$("#" + Modal.properties.id).remove();
+
 			if(Modal.listener === false) { // check if has any eventlistener activated
 				Modal.opened = false;
 				return;
 			}
 
 			Modal.opened = false;
-			Modal.dequeue();	
+			Modal.dequeue();
+			
 		});
 
 	}
@@ -76,7 +78,7 @@ class Modal {
 
 	static dequeue() {
 		if(Modal.queue !== undefined) {
-			Modal.show(Modal.queue.pop());
+			Modal.show(Modal.queue.shift());
 		}
 	}
 }

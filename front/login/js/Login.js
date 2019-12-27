@@ -2,11 +2,7 @@ const lib = [
 	'./css/signin.css'
 ]
 
-include(lib, function() {
-
-	alert("oi");
-
-});
+include(lib);
 
 function login() {
 
@@ -17,7 +13,6 @@ function login() {
 	let json = {email:email, senha:senha};
 
 	validarDados(json);
-	
 }
 
 function gerarMensagemErro(mensagem) {
