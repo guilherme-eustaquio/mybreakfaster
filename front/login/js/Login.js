@@ -11,7 +11,7 @@ function main() {
 }
 
 function listeners() {
-		
+	
 	Transition.addPad(
 		[
 			{
@@ -26,11 +26,15 @@ function listeners() {
 		]
 	);
 	
+	Transition.init();		
 	Transition.start();
 	
 	document.getElementById("botao-login").addEventListener("click", function() {
 		login();
 	});
+	document.getElementById("botao-cadastrar").addEventListener("click", function() {
+		cadastrar();
+	});	
 }
 
 function login() {
@@ -38,17 +42,11 @@ function login() {
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
-	let json = {email:email, senha:senha};
 
-	validarDados(json);
-}
-
-function validarDados(json) {
-
-	object = {
+	let object = {
 		path: "usuario",
 		method: "POST",
-		data: "email=" + json.email + "&senha=" + json.senha, 
+		data: "email=" + email + "&senha=" + senha, 
 	};
 
 	Network.makeHttpReq(object, 
@@ -66,7 +64,32 @@ function validarDados(json) {
 		function failed() {
 			alert("Erro no servidor!");
 		}
-	);
+	);	
+}
+
+function cadastrar() {
+	
+	let email = document.getElementById("email-cadastro").value;
+	let nome = document.getElementById("nome-cadastro").value;
+	let senha = document.getElementById("senha-cadastro").value;
+	let endereco = document.getElementById("endereco-cadastro").value;
+
+	let object = {
+		path: "usuario/criar",
+		method: "POST",
+		data: 'email=' + email + '&senha=' + senha + '&nome=' + nome + "&endereco=" + endereco, 
+	};
+
+	Network.makeHttpReq(object,
+	
+		function success(msg) {
+			alert("Cadastrado com sucesso!");
+		},
+
+		function failed() {
+			alert("Erro no servidor!");
+		}
+	);	
 }
 
 function transicaoLogin() {
