@@ -1,23 +1,46 @@
 const lib = [
-	'./css/signin.css'
+	'./css/signin.css',
+	'../global/js/class/Transition.class.js'
 ]
 
-include(lib);
+include(lib, main);
+
+function main() {
+	localStorage.setItem("logged", 0);
+	listeners();
+}
+
+function listeners() {
+		
+	Transition.addPad(
+		[
+			{
+				hash: "#login",
+				action: transicaoLogin
+			},
+			{
+				hash: "#criarConta",
+				action: transicaoCadastro
+			}
+		
+		]
+	);
+	
+	Transition.start();
+	
+	document.getElementById("botao-login").addEventListener("click", function() {
+		login();
+	});
+}
 
 function login() {
 
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
-	
 	let json = {email:email, senha:senha};
 
 	validarDados(json);
-}
-
-function gerarMensagemErro(mensagem) {
-	$("#mensagem-de-erro").text(mensagem);
-	$("#mensagem-de-erro").toggle(200);
 }
 
 function validarDados(json) {
@@ -31,19 +54,28 @@ function validarDados(json) {
 	Network.makeHttpReq(object, 
 		function success(msg) {
 			if(typeof(msg) == "object") {
-				location.assign("../dashboard/index.html#lista-restaurantes&" + msg.id);	
-				localStorage.setItem("id", msg.id);	
+				localStorage.setItem("id", msg.id);
+				localStorage.setItem("logged", 1);
+				location.replace("../dashboard/index.html#lista-restaurantes&" + msg.id);	
 			}	
 			else {
-				gerarMensagemErro("Usuário ou senha incorretos!");		
+				alert("Usuário ou senha incorretos!");
 			}
 		},
 
 		function failed() {
-			gerarMensagemErro("Erro no servidor");
+			alert("Erro no servidor!");
 		}
 	);
-	
+}
+
+function transicaoLogin() {
+	$("#modulo-cadastro").hide();
+	$("#modulo-login").fadeIn(100);
 }
 
 
+function transicaoCadastro() {
+	$("#modulo-login").hide();
+	$("#modulo-cadastro").fadeIn(100);
+}

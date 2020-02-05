@@ -2,34 +2,66 @@
 
 <html lang = "pt-br">
 	<head>
-		<meta charset="UTF-8">
+		<meta charset = "UTF-8">
 		<script src = "../global/js/third/jquery-3.4.1.min.js"></script>
 		<script src = "../global/js/Init.js"></script>
 		<script src = "./js/Login.js"></script>
 	</head>
-	<body class = "text-center">
-		<!--		
-		<div class = "loading-center text-center">
-			<div class = "loading-content">
-				<div class="spinner-border text-light" role="status">
-					<span class="sr-only"></span>
-				</div>
-			</div>
-		</div>-->
-	
-		<form class="form-signin">
+	<body class = "text-center">	
+		
+		<div class = "form-signin">
+		
 			<h1 class = "titulo">MyBreakFaster</h1>
-			<label for = "email" class="sr-only">Email</label>
-			<input type = "email" id="email" class="form-control" placeholder = "Digite o seu e-mail">
-			<label for = "senha" class="sr-only">Senha</label>
-			<input type = "password" id = "senha" class="form-control" placeholder = "Digite a sua senha">
-			<br>
-			<p style = "color:brown; display: none" id = "mensagem-de-erro"></p>
-			<button class="btn btn-lg btn-danger btn-block" type = "submit" onclick = "login(); return false;">Acessar</button>
-			<br>
-			<a href = "../cadastro/index.html" style = "color: red">Criar conta</a>
 
-			<p class="mt-5 mb-3 text-muted">© MyBreakFaster 2019</p>
-		</form>
+			<div id = "modulo-login">
+				<label for = "email" class="sr-only">Email</label>
+				<input type = "email" id = "email" class="form-control" placeholder = "Digite o seu e-mail">
+				
+				<br>
+				
+				<label for = "senha" class = "sr-only">Senha</label>
+				<input type = "password" id = "senha" class = "form-control" placeholder = "Digite a sua senha">
+				
+				<br>
+				
+				<p style = "color:brown; display: none" id = "mensagem-de-erro"></p>
+				<button class = "btn btn-lg btn-danger btn-block" id = "botao-login">Acessar</button>
+				
+				<br>
+				<a href = "#criarConta" id = "criar-conta" style = "color: red">Criar conta</a>			
+			</div>
+
+			
+			<div id = "modulo-cadastro" style = "display:none">
+				<label for = "nome" class="sr-only">Nome</label>
+				<input type = "text" id = "nome" class="form-control" placeholder = "Digite o seu nome">
+
+				<br>
+
+				<label for = "email-cadastro" class="sr-only">Email</label>
+				<input type = "text" id = "email-cadastro" class="form-control" placeholder = "Digite o seu email">
+				
+				<br>
+				
+				<label for = "senha-cadastro" class = "sr-only">Senha</label>
+				<input type = "password" id = "senha-cadastro" class = "form-control" placeholder = "Digite a sua senha">
+				
+				<br>
+				
+				<label for = "confirma-senha" class = "sr-only">Confirmar Senha</label>
+				<input type = "password" id = "confirma-senha" class = "form-control" placeholder = "Confirme sua senha">			
+				
+				<br>
+				
+				<button class = "btn btn-lg btn-danger btn-block" id = "botao-login">Cadastrar</button>
+				
+				<br>
+				
+				<a href = "#login" id = "voltar" style = "color: red">Voltar</a>
+			</div>
+			
+			<p class = "mt-5 mb-3 text-muted">© MyBreakFaster 2019</p>			
+		
+		</div>
 	</body>
 </html>

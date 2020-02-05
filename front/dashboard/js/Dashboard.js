@@ -8,31 +8,69 @@ let libs = [
 include(libs, main);
 
 function main() {
+		
+	if(localStorage.getItem("logged") == 0 || localStorage.getItem("logged") == undefined) {
+		
+		location.replace("../login/index.html");
+		return;
+	}
+	
+	loadPages(
+		[
+			{
+				"id":"#barra-navegacao-opcoes",
+				"path":"./nav/barra-navegacao-opcoes.html"
+			},
+			{
+				"id":"#barra-navegacao-aplicativo",
+				"path":"./nav/barra-navegacao-aplicativo.html"
+			},
+			{
+				"id":"#modais",
+				"path":"./modais/modal.html"
+			},
+			{
+				"id":"#perfil",
+				"path":"./paginas/pagina-perfil.html"
+			}		
+		],
+		0,
+		function() {
+			verificarMenuPrincipal(window.location.hash);
+			listeners();
+		}
+	);	
+}
 
-	$("#barra-navegacao-opcoes").load("./nav/barra-navegacao-opcoes.html", function() {
-		$("#barra-navegacao-aplicativo").load("./nav/barra-navegacao-aplicativo.html", function() {
-			$("#modais").load("./modais/modal.html", function() {
-				$("#perfil").load("./paginas/pagina-perfil.html", function() {	
-					verificarMenuPrincipal(window.location.hash);
-				});
-			});
-		});
+function listeners() {
+	
+	window.addEventListener('hashchange', function() {
+		
+		if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
+			document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+			ativador_menu_opcao = 0;
+			return;
+		}
+
+		verificarMenuPrincipal(window.location.hash);
 
 	});
 	
+	document.getElementById("item-sobre").addEventListener('click', function() {
+		abrirModal("modal-sobre", "Sobre", "MyBreakFaster é um aplicativo muito legal.");	
+	});
+	document.getElementById("item-ajuda").addEventListener('click', function() {
+		abrirModal("modal-ajuda", "Ajuda", "Não posso ajudá-lo, desculpe.");	
+	});
+	document.getElementById("item-logout").addEventListener('click', function() {
+		localStorage.clear();
+		location.replace("../login/index.html");
+	});
+	document.getElementById("botao-opcao-menu").addEventListener('click', function() {
+		window.location.hash = "#opcao";
+		ativarMenuOpcao();
+	});	
 }
-
-window.addEventListener('hashchange', function() {
-	
-	if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
-		document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
-		ativador_menu_opcao = 0;
-		return;
-	}
-
-	verificarMenuPrincipal(window.location.hash);
-
-});
 
 function verificarMenuPrincipal(hash) {
 
@@ -95,7 +133,7 @@ function carregarCards() {
 		path: "estabelecimentos",
 		method: "GET",
 		data: ""
-	};	
+	};
 	
 	Network.makeHttpReq(object, 
 		

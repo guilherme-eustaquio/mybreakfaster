@@ -5,8 +5,8 @@ function include(libs, init) {
 	let static_scripts = [
 		"../global/js/third/bootstrap.min.js",
 		"../global/js/Server.js",
-		"../global/js/class/Network.class.js",
 		"../global/js/class/Loading.class.js",
+		"../global/js/class/Network.class.js",
 		"../global/js/Event.js",
 		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Modal.class.js",
@@ -15,7 +15,7 @@ function include(libs, init) {
 		"../global/js/native/Prompt.js"
 	];
 
-	loadScripts(static_scripts, 0);
+	loadScripts(static_scripts);
 
 	$("<link/>", {
 	   rel: "stylesheet",
@@ -63,25 +63,48 @@ function include(libs, init) {
 	});
 }
 
-function loadScripts(scripts, count) {
-
-	if(count == scripts.length) {
-		return;
+function loadScripts(scripts) {
+	
+	for(count = 0; count < scripts.length; count++) {
+		$.ajax({
+			url: scripts[count],
+			dataType: 'script',
+			async: false
+		});
 	}
-
+	/*
 	$.getScript(scripts[count], function(data, textStatus, jqxhr) {
 		if(jqxhr.status != 200) {
 			return;
 		}
-		
+
 	}).done(function() {
 		count++;
 		loadScripts(scripts, count);
 	});
+	*/
 }
 
 function loadScript(script) {
+	
 	let array = [script];
 
-	loadScripts(array, 0);
+	loadScripts(array);
+}
+
+function loadPages(pages, count, callback) {
+	
+	if(count == pages.length) {
+		
+		if(callback !== undefined) {
+			callback();
+		}
+		
+		return;
+	}
+	
+	$(pages[count]["id"]).load(pages[count]["path"], function() {
+		count++;
+		loadPages(pages, count, callback);
+	});
 }
