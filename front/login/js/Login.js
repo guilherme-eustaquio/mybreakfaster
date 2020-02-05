@@ -1,12 +1,16 @@
 const lib = [
-	'./css/signin.css',
-	'../global/js/class/Transition.class.js'
+	'./css/signin.css'
 ]
 
 include(lib, main);
 
 function main() {
 	localStorage.setItem("logged", 0);
+	/*
+	let stateObj = {index: "auth" };
+	
+	history.replaceState(stateObj, "auth", "auth");	
+	*/
 	listeners();
 }
 

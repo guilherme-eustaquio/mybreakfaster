@@ -5,14 +5,15 @@ function include(libs, init) {
 	let static_scripts = [
 		"../global/js/third/bootstrap.min.js",
 		"../global/js/Server.js",
+		"../global/js/native/Alert.js",
+		"../global/js/native/Prompt.js",
 		"../global/js/class/Loading.class.js",
 		"../global/js/class/Network.class.js",
 		"../global/js/Event.js",
 		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Modal.class.js",
 		"../global/js/listeners/Modal.js",
-		"../global/js/native/Alert.js",
-		"../global/js/native/Prompt.js"
+		"../global/js/class/Transition.class.js"
 	];
 
 	loadScripts(static_scripts);
