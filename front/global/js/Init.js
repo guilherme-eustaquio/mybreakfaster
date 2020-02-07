@@ -73,17 +73,6 @@ function loadScripts(scripts) {
 			async: false
 		});
 	}
-	/*
-	$.getScript(scripts[count], function(data, textStatus, jqxhr) {
-		if(jqxhr.status != 200) {
-			return;
-		}
-
-	}).done(function() {
-		count++;
-		loadScripts(scripts, count);
-	});
-	*/
 }
 
 function loadScript(script) {

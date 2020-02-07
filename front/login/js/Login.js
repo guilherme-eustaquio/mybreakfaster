@@ -41,7 +41,12 @@ function login() {
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
-
+	
+	if(email == "" || senha == "") {
+		alert("Preencha todos os campos!");
+		return;
+	}
+	
 	let object = {
 		path: "usuario",
 		method: "POST",
@@ -50,18 +55,13 @@ function login() {
 
 	Network.makeHttpReq(object, 
 		function success(msg) {
-			if(typeof(msg) == "object") {
-				localStorage.setItem("id", msg.id);
-				localStorage.setItem("logged", 1);
-				location.replace("../dashboard/index.html#lista-restaurantes&" + msg.id);	
-			}	
-			else {
-				alert("Usuário ou senha incorretos!");
-			}
+			localStorage.setItem("id", msg.id);
+			localStorage.setItem("logged", 1);
+			location.replace("../dashboard/index.html#lista-restaurantes");	
 		},
 
-		function failed() {
-			alert("Erro no servidor!");
+		function failed(jqXHR, textStatus, msg) {
+			alert(msg.message);
 		}
 	);	
 }
@@ -72,7 +72,12 @@ function cadastrar() {
 	let nome = document.getElementById("nome-cadastro").value;
 	let senha = document.getElementById("senha-cadastro").value;
 	let endereco = document.getElementById("endereco-cadastro").value;
-
+	
+	if(email == "" || nome == "" || senha == "" || endereco == "") {
+		alert("Preencha todos os campos!");
+		return;
+	}
+	
 	let object = {
 		path: "usuario/criar",
 		method: "POST",

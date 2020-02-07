@@ -5,16 +5,22 @@ let libs = [
 	"../global/js/class/Geolocation.class.js"
 ];
 
+let dashboard = {
+	menu_opcao_ativador: false,
+	ultima_pagina_acessada: 0,
+	ultimo_hash_acessado: "#lista-restaurantes"
+};
+
 include(libs, main);
 
 function main() {
-		
+	
 	if(localStorage.getItem("logged") == 0 || localStorage.getItem("logged") == undefined) {
 		
 		location.replace("../login/index.html");
 		return;
 	}
-	
+		
 	loadPages(
 		[
 			{
@@ -36,7 +42,6 @@ function main() {
 		],
 		0,
 		function() {
-			verificarMenuPrincipal(window.location.hash);
 			listeners();
 		}
 	);	
@@ -44,17 +49,54 @@ function main() {
 
 function listeners() {
 	
-	window.addEventListener('hashchange', function() {
-		
-		if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open" && window.location.hash == "opcao") {
-			document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
-			ativador_menu_opcao = 0;
-			return;
-		}
-
-		verificarMenuPrincipal(window.location.hash);
-
-	});
+	
+	Transition.addPad(
+		[
+			{
+				hash: "#lista-restaurantes",
+				action: function() {
+					checarBarraNavegacaoOpcao();					
+					carregarRestaurantes();
+					menuAplicativo(0);		
+					dashboard["ultimo_hash_acessado"] = "#lista-restaurantes";
+				}
+			},
+			{
+				hash: "#lista-pedidos",
+				action: function() {
+					checarBarraNavegacaoOpcao();
+					carregarPedidos();
+					menuAplicativo(1);
+					dashboard["ultimo_hash_acessado"] = "#lista-pedidos";
+				}
+			},
+			{
+				hash: "#perfil",
+				action: function() {
+					checarBarraNavegacaoOpcao();
+					carregarPerfil(localStorage.getItem("id"));
+					menuAplicativo(2);
+					dashboard["ultimo_hash_acessado"] = "#perfil";
+				}		
+			},
+			{
+				hash: "#lista-produto",
+				action: function() {
+					console.log("lista-produto");
+					dashboard["ultimo_hash_acessado"] = "#lista-produto";
+				}	
+			},
+			{
+				hash: "#opcao",
+				action: function() {
+					ativarMenuOpcao();
+				}
+			}
+		]
+	);
+	
+	Transition.init();
+	Transition.start();
 	
 	document.getElementById("item-sobre").addEventListener('click', function() {
 		abrirModal("modal-sobre", "Sobre", "MyBreakFaster é um aplicativo muito legal.");	
@@ -66,11 +108,45 @@ function listeners() {
 		localStorage.clear();
 		location.replace("../login/index.html");
 	});
+	
 	document.getElementById("botao-opcao-menu").addEventListener('click', function() {
-		window.location.hash = "#opcao";
-		ativarMenuOpcao();
-	});	
+		if(dashboard["menu_opcao_ativador"] == true) {
+			window.location.hash = dashboard["ultimo_hash_acessado"];
+		}
+		else {
+			window.location.hash = "#opcao";
+		}
+	});
 }
+
+function checarBarraNavegacaoOpcao() {
+	if(document.getElementById("barra-navegacao-opcao-producao").className == "navbar-collapse offcanvas-collapse open") {
+		document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+		dashboard["menu_opcao_ativador"] = false;
+	}
+}
+
+function ativarMenuOpcao() {
+	
+	document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
+	console.log("----");
+	if(dashboard["menu_opcao_ativador"] == true) {
+		$('[data-toggle="offcanvas"]', function() {
+			$('.offcanvas-collapse').toggleClass('');
+		})
+		
+		dashboard["menu_opcao_ativador"] = false;
+	}
+	else {
+		$('[data-toggle="offcanvas"]', function() {
+			$('.offcanvas-collapse').toggleClass('open');
+		});
+		
+		dashboard["menu_opcao_ativador"] = true;
+		
+	}
+}
+
 
 function verificarMenuPrincipal(hash) {
 
@@ -84,7 +160,7 @@ function verificarMenuPrincipal(hash) {
 				ativador_menu_opcao = 0;
 				return;
 			}
-			carregarCards();
+			carregarRestaurantes();
 			menuAplicativo(0);
 			break;
 		case "#lista-pedidos":
@@ -127,7 +203,7 @@ function abrirModal(tipo, titulo, corpo) {
 	});
 }
 
-function carregarCards() {
+function carregarRestaurantes() {
 
 	let object = {
 		path: "estabelecimentos",
@@ -206,14 +282,13 @@ function carregarPedidos() {
 
 }
 
-var ultima_pagina_acessada = 0;
 function menuAplicativo(pagina) {
 	
 	let paginas = ['lista-restaurantes', 'lista-pedidos', 'perfil'];
 	let links = ['item-restaurantes', 'item-pedidos', 'item-perfil'];
 
-	document.getElementById(paginas[ultima_pagina_acessada]).style.display = "none";
-	document.getElementById(links[ultima_pagina_acessada]).className = "nav-link";
+	document.getElementById(paginas[dashboard["ultima_pagina_acessada"]]).style.display = "none";
+	document.getElementById(links[dashboard["ultima_pagina_acessada"]]).className = "nav-link";
 
 
 	document.getElementById(paginas[pagina]).style.display = "block";
@@ -221,7 +296,7 @@ function menuAplicativo(pagina) {
 
 	$("#lista-produtos").hide();
 
-	ultima_pagina_acessada = pagina;	
+	dashboard["ultima_pagina_acessada"] = pagina;
 }
 
 function esconderTodos() {
