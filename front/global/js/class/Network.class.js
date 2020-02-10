@@ -1,6 +1,6 @@
 class Network {
 	
-	static makeHttpReq(json, sucess, fail) {
+	static makeHttpReq(json, success, error) {
 		
 		let host = HOST_DEV;
 		
@@ -17,10 +17,12 @@ class Network {
 		 })
 		 .done(function(msg) {
 			Loading.hideLoading();
-			sucess(msg);		
-		 }).fail(function(jqXHR, textStatus, msg){
+			success(msg);
+		 })
+		 .fail(function(jqXHR, textStatus, msg){
 			Loading.hideLoading();
-			fail(jqXHR, textStatus, msg);
+			Vibration.whenError();
+			error(jqXHR, textStatus, msg);
 		});		
 	}
 

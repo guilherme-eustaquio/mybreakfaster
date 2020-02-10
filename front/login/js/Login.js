@@ -5,8 +5,35 @@ const lib = [
 include(lib, main);
 
 function main() {
+	
 	localStorage.setItem("logged", 0);
+		
+	Notification.requestPermission(function (permission) {
+      if(permission === "granted") {
+		let img = 'https://www.prchecker.info/free-icons/128x128/linux_128_px.png';
+		let text = "Interessado em promoção? Veja mais!";
+		let notification = new Notification('MyBreakFaster', {body: text, icon: img });
+      }
+    });
+
+	if(localStorage.getItem("splash") == null) {
+		splash();
+	}
+	else {
+		$("#modulo-tela").fadeIn(100);		
+	}
+	
 	listeners();
+}
+
+function splash() {
+	$("#modulo-splash")
+	.fadeIn(500)
+	.delay(1000)
+	.fadeOut(50, function() {
+		localStorage.setItem("splash", true);
+		$("#modulo-tela").fadeIn();		
+	});
 }
 
 function listeners() {
@@ -33,7 +60,7 @@ function listeners() {
 	});
 	document.getElementById("botao-cadastrar").addEventListener("click", function() {
 		cadastrar();
-	});	
+	});		
 }
 
 function login() {
@@ -41,9 +68,10 @@ function login() {
 	
 	let email = document.getElementById("email").value;
 	let senha = document.getElementById("senha").value;
-	
-	if(email == "" || senha == "") {
-		alert("Preencha todos os campos!");
+		
+	if(!Validation.verify([email, senha], ["required"])) {
+		Vibration.whenError();
+		alert("Preencha todos os campos!");	
 		return;
 	}
 	

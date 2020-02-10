@@ -13,11 +13,13 @@ function include(libs, init) {
 		"../global/js/class/StringEasy.class.js",
 		"../global/js/class/Modal.class.js",
 		"../global/js/listeners/Modal.js",
-		"../global/js/class/Transition.class.js"
+		"../global/js/class/Transition.class.js",
+		"../global/js/class/Vibration.class.js",
+		"../global/js/class/Validation.class.js"
 	];
-
+	
 	loadScripts(static_scripts);
-
+	
 	$("<link/>", {
 	   rel: "stylesheet",
 	   type: "text/css",

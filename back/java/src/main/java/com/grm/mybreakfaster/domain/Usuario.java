@@ -1,10 +1,17 @@
 package com.grm.mybreakfaster.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +34,16 @@ public class Usuario {
 	
 	@Column(name = "endereco")
 	private String endereco;
+	
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(name = "usuario_permissao",
+            joinColumns = { @JoinColumn(name = "id_usuario") },
+            inverseJoinColumns = { @JoinColumn(name = "id_permissao") })	
+	private List<Permissao> permissoes;
 	
 	public Long getId() {
 		return id;
@@ -66,6 +83,10 @@ public class Usuario {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+	
+	public List<Permissao> getPermissoes() {
+		return this.permissoes;
 	}
 }
 

@@ -1,8 +1,13 @@
 window.addEventListener('online', function() {
+	Vibration.stopAllVibration();
 	Modal.listener = false;
 	Modal.hide();
 });
 window.addEventListener('offline', function() {
+	
+	
+	Vibration.whenError();
+	
 	Modal.show({
 		id:"modalOffline",
 		element: "body",

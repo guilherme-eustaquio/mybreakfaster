@@ -1,6 +1,7 @@
 class Loading {
 	
 	static showLoading() {
+		
 		let str = '<div class = "loading-center text-center" id = "loading-schema">';
 		str += '<div class = "loading-content">';
 		str += '<div class="spinner-border text-light" role="status">';

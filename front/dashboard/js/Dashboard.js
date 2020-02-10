@@ -105,7 +105,7 @@ function listeners() {
 		abrirModal("modal-ajuda", "Ajuda", "Não posso ajudá-lo, desculpe.");	
 	});
 	document.getElementById("item-logout").addEventListener('click', function() {
-		localStorage.clear();
+		localStorage.removeItem("logged");
 		location.replace("../login/index.html");
 	});
 	
@@ -129,7 +129,7 @@ function checarBarraNavegacaoOpcao() {
 function ativarMenuOpcao() {
 	
 	document.getElementById("barra-navegacao-opcao-producao").className = "navbar-collapse offcanvas-collapse";
-	console.log("----");
+
 	if(dashboard["menu_opcao_ativador"] == true) {
 		$('[data-toggle="offcanvas"]', function() {
 			$('.offcanvas-collapse').toggleClass('');
